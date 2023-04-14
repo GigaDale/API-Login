@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, make_response, session, redirect
+from flask import Flask, render_template, request, make_response, session, redirect, flash
 from jinja2.exceptions import TemplateNotFound
 
 import secrets
@@ -19,15 +19,18 @@ def home():
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
-    if request.method == "POST":
-        users_json = request.get_json()
-        users_json['senha'] = utils.gen_hash(users_json, 'senha')
-        if db.validation_login(users_json['usuario'], users_json['senha']) == 1:
-            session['usuario'] = users_json['usuario']
-            return render_template("logado.html", name=session['usuario']), 200
-        else:
-            return "<h1>Usuário não encontrado</h1>"
-    else:
+    try:
+        if request.method == "POST":
+            username = request.form.get('username')
+            password = utils.gen_hash(request.form.get('password'))
+            if db.validation_login(username, password) == 1:
+                session['username'] = username
+                return render_template("logado.html", name=session['username'])
+            else:
+                flash('Usuário e/ou senha incorretos.')
+                return redirect('/login')
+        return render_template("login.html")
+    except TemplateNotFound:
         return render_template("pagina_nao_encontrada.html"), 404
     
 @app.route("/logout", methods=['POST', 'GET'])
@@ -35,14 +38,23 @@ def logout():
     session.pop('usuario', None)
     return render_template("logout.html")
 
-@app.route("/register", methods=['POST'])
+@app.route("/register", methods=['POST', 'GET'])
 def register():
-    register_json = request.get_json()
-    register_json['senha'] = utils.gen_hash(register_json, 'senha')
-    if db.validation_login(register_json['usuario'], register_json['senha']) == 1:
-        return "<h1>Usuário já existente, use outro nome</h1>"
-    db.create_login(register_json['usuario'], register_json['senha'])
-    return render_template("cadastro_sucesso.html", name=register_json['usuario'])
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = utils.gen_hash(request.form.get('password'))
+        if db.validation_login(username, password) == 0:
+            db.create_user(username, password)
+            session['username'] = username
+            return redirect(f'/success')
+        else:
+            flash('Usuário já existe. Tente novamente.')
+            return redirect('/register')
+    return render_template("cadastro.html")
+    
+@app.route("/success", methods=['POST', 'GET'])
+def success():
+    return render_template("cadastro_sucesso.html", name=session['username'])
 
 if __name__ == "__main__":
     app.run(debug=True) # Tirar debug antes de dar deploy

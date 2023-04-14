@@ -12,6 +12,8 @@ mypy = "*"
 mypysql = "*"
 export = "*"
 pymysql = "*"
+mysql-connector-python = "*"
+mysqlclient = "*"
 
 [dev-packages]
 
