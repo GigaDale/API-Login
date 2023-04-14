@@ -1,0 +1,10 @@
+{% extends 'html/home.html' %}
+
+{% block header %}
+  <h1>{% block title %}Logout{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <h1>Você deslogou</h1>
+    <a href="{{url_for('home')}}">Voltar a página de login</a>
+{% endblock %}

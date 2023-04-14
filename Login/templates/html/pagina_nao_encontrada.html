@@ -1,0 +1,9 @@
+{% extends 'html/home.html' %}
+
+{% block header %}
+  <h1>{% block title %}Página não encontrada{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <button><a href="{{url_for('home')}}">Home</a></button>
+{% endblock %}
