@@ -5,7 +5,7 @@ import secrets
 import middlewares.db_middleware as db
 import middlewares.utils_middleware as utils
 
-app = Flask("login")
+app = Flask(__name__)
 app.secret_key = secrets.token_hex()
 
 # Página principal

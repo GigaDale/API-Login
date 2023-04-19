@@ -1,0 +1,75 @@
+/* Home page */
+body {
+margin: 0;
+padding: 0;
+font-family: Arial, sans-serif;
+}
+
+nav {
+background-color: #333;
+color: #fff;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 10px;
+}
+
+nav h1 {
+margin: 0;
+font-size: 24px;
+font-weight: bold;
+}
+
+nav ul {
+list-style: none;
+display: flex;
+align-items: center;
+margin: 0;
+padding: 0;
+}
+
+nav li {
+margin: 0 10px;
+}
+
+nav li span {
+font-weight: bold;
+}
+
+nav a {
+color: #fff;
+text-decoration: none;
+}
+
+nav a:hover {
+text-decoration: underline;
+}
+
+section.content {
+margin: 20px;
+}
+
+/* Definições específicas do template */
+.flash {
+background-color: yellow;
+padding: 10px;
+margin-bottom: 10px;
+}
+
+header {
+background-color: #eee;
+border: 1px solid #ccc;
+padding: 10px;
+margin-bottom: 20px;
+}
+
+.message {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 300px;
+}
+
+.message h1 {
+margin: 0;
+}
